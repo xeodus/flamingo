@@ -33,6 +33,8 @@ private:
     std::unordered_map<OrderID, OrderEntry> orders_;
     mutable std::mutex orders_mutex;
     std::thread orders_prune_thread;
+    std::condition_variable shutdown_conditional_variables;
+    std::atomic<bool> shutdown{false};
 
     void prune_good_for_day();
     void cancel_orders(OrderIDs order_ids);
@@ -50,9 +52,9 @@ public:
     void operator=(const OrderBook&&) = delete;
     ~OrderBook();
 
-    Trades AddOrder(OrderPointer order);
-    void CancelOrder(OrderID order_id);
-    Trades ModifyOrder(OrderModify order);
+    Trades add_orders(OrderPointer order);
+    void cancel_order(OrderID order_id);
+    Trades modify_order(OrderModify order);
     std::size_t Size() const;
     OrderBookLevelInfo get_order_infos() const;
 };
