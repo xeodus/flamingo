@@ -69,3 +69,31 @@ void OrderBook::cancel_internal_order(OrderID order_id) {
 
     on_order_canceled(order);
 }
+
+void OrderBook::on_order_canceled(OrderPointer order) {
+    update_level_data(order->get_price(), order->get_remaining_quantity(), LevelData::Actions::Remove);
+}
+
+void OrderBook::on_order_add(OrderPointer order) {
+    update_level_data(order->get_price(), order->get_initial_quantity(), LevelData::Actions::Add);
+}
+
+void OrderBook::on_order_matched(Price price, Quantity quantity, bool is_fully_filled) {
+    update_level_data(price, quantity, is_fully_filled ? LevelData::Actions::Remove : LevelData::Actions::Match);
+}
+
+void OrderBook::update_level_data(Price price, Quantity quantity, LevelData::Actions actions) {
+    auto& data = data_[price];
+    data.count_ += actions == LevelData::Actions::Remove ? -1 : actions == LevelData::Actions::Add ? 1 : 0;
+
+    if (actions == LevelData::Actions::Remove || actions == LevelData::Actions::Match) {
+        data.quantity_ -= quantity;
+    }
+    else {
+        data.quantity_ += quantity; 
+    }
+
+    if (data.count_ == 0) {
+        data_.erase(price);
+    }
+}
