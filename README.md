@@ -3,7 +3,7 @@
 This is an order book implementation for low latency trading environments, written in C++. The order book supports multiple order type and ensures optimal trade execution.
 
 
-**Project under development..**
+🔨 **Project under development..**
 
 - **Good For Day:** Pruned at market close.
 - **Market Orders:** Converted to good till cancel if executable.
@@ -11,14 +11,14 @@ This is an order book implementation for low latency trading environments, writt
 - **Fill Or Kill:** Executed entirely or canceled.
 - **Fill And Kill:** Executed partially and the remaining quantity canceled.
 
-## Features 
+📌 ## Features 
 
 - [x] **Efficient Matching Engine:** Implements price-time priority for optimal order execution.
 - [x] **Concurrency Support:** Uses Mutex locks for thread safety.
 - [x] **Auto-Pruning:** Autometically removes expired orders.
 - [x] **Order Modification & Cancellations:** Allows real-time order updates.
 
-## Thread Safety
+🛡️ ## Thread Safety
 
 The order book runs a background thread for GFD order pruning and uses mutex locks to ensure data consistency in a multi-threaded environment.
 
@@ -27,4 +27,3 @@ The order book runs a background thread for GFD order pruning and uses mutex loc
 ```bash
     git clone https://github.com/xeodus/flamingo.git
     cd flamingo
-    ```
