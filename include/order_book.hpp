@@ -43,6 +43,9 @@ private:
     void on_order_add(OrderPointer order);
     void on_order_matched(Price price, Quantity quantity, bool is_fully_filled);
     void update_level_data(Price price, Quantity quantity, LevelData::Actions actions);
+    bool can_fully_fill(Price price, Quantity quantity, Side side) const;
+    bool can_match(Price price, Side side) const;
+    Trades match_orders();
     
 public:
     OrderBook();
